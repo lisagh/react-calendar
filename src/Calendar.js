@@ -6,14 +6,24 @@ import loadData from "./events.json";
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
+    this.eventclass = "eventday";
     this.state = {
       currentMonth: new Date(),
       selectedDate: new Date(),
       eventDate: [],
-      showEvent: false
+      show: false,
+      title: "",
+      description: "",
+      imageFilename: ""
     };
-    this.initialiseEvents();
   }
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
 
   renderHeader() {
     const dateFormat = "MMMM YYYY";
@@ -85,9 +95,9 @@ class Calendar extends React.Component {
               !dateFns.isSameMonth(day, monthStart)
                 ? "disabled"
                 : dateFns.isSameDay(day, selectedDate)
-                ? "selected"
+                ? "today"
                 : hasevent(day)
-                ? "eventday"
+                ? this.eventclass
                 : ""
             }`}
             key={day}
@@ -111,9 +121,19 @@ class Calendar extends React.Component {
   }
 
   onDateClick = day => {
-    this.setState({
-      selectedDate: day
-    });
+    const e = [];
+    for (var i = 0; i < loadData.length; i++) {
+      e.push(loadData[i]);
+      var launchdate = dateFns.parse(loadData[i].launchDate);
+      if (dateFns.isSameDay(day, launchdate)) {
+        this.setState({
+          show: true,
+          title: e[i].title,
+          description: e[i].description,
+          imageFilename: e[i].imageFilename
+        });
+      }
+    }
   };
 
   nextMonth = () => {
@@ -128,29 +148,43 @@ class Calendar extends React.Component {
     });
   };
 
-  initialiseEvents() {
-    this.setState({
-      showEvent: !this.state.showEvent
-    });
-
-    const e = [];
-    for (var i = 0; i < loadData.length; i++) {
-      e.push(loadData[i].title);
-    }
-
-    return <ul>{e}</ul>;
-  }
-
   render() {
     return (
       <div className="calendar">
-        {this.initialiseEvents()}
         {this.renderHeader()}
         {this.renderDays()}
         {this.renderCells()}
+        <Modal
+          show={this.state.show}
+          handleClose={this.hideModal}
+          title={this.state.title}
+          description={this.state.description}
+          imageFilename={this.state.imageFilename}
+        />
       </div>
     );
   }
 }
+const Modal = ({ handleClose, show, title, description, imageFilename }) => {
+  const showHideClassName = show ? "modal display-block" : "modal display-none";
+  return (
+    <div className={showHideClassName}>
+      <section className="modal-main">
+        <div className="image-container">
+          <img
+            src={process.env.PUBLIC_URL + `./assets/${imageFilename}`}
+            alt={title}
+          />
+        </div>
+        <div className="text">
+          <h4>{title}</h4>
+          <p>{description}</p>
+        </div>
+
+        <button onClick={handleClose}>Close</button>
+      </section>
+    </div>
+  );
+};
 
 export default Calendar;

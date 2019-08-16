@@ -1,7 +1,7 @@
 /* VARIABLES */
 
 :root {
-  --main-color: #101214;
+  --main-color: #e6e6e6;
   --text-color: rgb(90, 90, 90);
   --text-color-light: #ccc;
   --border-color: #eee;
@@ -40,7 +40,6 @@ header {
   width: 100%;
   padding: 1.75em 0;
   border-bottom: 1px solid var(--border-color);
-  background: var(--neutral-color);
 }
 
 header #logo {
@@ -97,7 +96,7 @@ header #logo .icon {
   position: relative;
   width: 100vh;
   background: var(--neutral-color);
-  border: 2px solid var(--border-color);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 7px;
 }
 
@@ -107,6 +106,8 @@ header #logo .icon {
   font-size: 115%;
   padding: 1.5em 0;
   border-bottom: 1px solid var(--border-color);
+  background-color: black;
+  color: white;
 }
 
 .calendar .header .icon {
@@ -132,7 +133,7 @@ header #logo .icon {
   text-transform: uppercase;
   font-weight: 400;
   color: #000;
-  font-size: 70%;
+  font-size: 90%;
   padding: 0.75em 0;
   border-bottom: 1px solid var(--border-color);
 }
@@ -150,14 +151,16 @@ header #logo .icon {
 .calendar .body .cell:hover {
   background: var(--bg-color);
   transition: 0.5s ease-out;
+  color: black;
 }
 
-.calendar .body .selected {
-  background-color: #e3dcfd9e;
+.calendar .body .today {
+  background-color: black;
+  color: white;
 }
 
 .calendar .body .eventday {
-  background-color: #34a7e933;
+  background-color: rgba(133, 179, 244, 0.3);
 }
 
 .calendar .body .row {
@@ -211,23 +214,53 @@ header #logo .icon {
   width: calc(100% / 7);
 }
 
-.popup {
+.modal {
   position: fixed;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 }
-.popup_inner {
-  position: absolute;
-  left: 25%;
-  right: 25%;
-  top: 25%;
-  bottom: 25%;
-  margin: auto;
+.modal-main {
+  display: flex;
+  position: fixed;
   background: white;
+  width: 60%;
+  padding: 25px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+img {
+  background: #4332;
+  flex: 1;
+  height: auto;
+  width: 200px;
+  display: inline-block;
+  box-shadow: 0px 8px 14px rgba(59, 64, 71, 0.075);
+}
+.text {
+  flex: 2;
+  padding-left: 20px;
+}
+button {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  /* width: 32px; */
+  height: 32px;
+  opacity: 0.3;
+}
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+.title {
+  text-align: center;
+  background-color: transparent;
 }
